@@ -46,7 +46,7 @@ export default function ContactSection() {
                 <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-gradient-to-br from-cyan-900/10 to-transparent blur-3xl" />
             </div>
 
-            <div className="container mx-auto px-4 md:px-6">
+            <div className="container mx-auto px-6 md:px-12 lg:px-20">
                 <div className="max-w-6xl mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
                         {/* Contact Info */}

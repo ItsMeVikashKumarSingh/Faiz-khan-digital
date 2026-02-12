@@ -1,5 +1,17 @@
 # Version History
 
+## 0.3.0 (2026-02-12)
+- **Major UI Redesign:** Implemented "SkyGlass" theme with deep obsidian background and glassmorphism elements.
+- **New Components:**
+    - `OrbsBackground`: Animated floating orbs background.
+    - `IntroductionVideo`: Glass-styled video placeholder.
+    - `FloatingStats`: Animated statistics component.
+- **Layout Improvements:**
+    - Standardized container padding across all sections (`px-6 md:px-12 lg:px-20`).
+    - Optimized spacing for Mobile (menu, sections) and Desktop (Floating Stats).
+    - Fixed Header alignment and mobile responsiveness.
+- **Typography:** Updated to `Orbitron` (headings) and `Outfit` (body) fonts throughout the application.
+
 ## 0.2.0 (2026-02-07)
 - **Rebrand:** Renamed website to "Faiz Khan Digital"
 - **UI Improvements:**

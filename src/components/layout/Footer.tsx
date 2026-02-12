@@ -43,30 +43,21 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="relative bg-[#030308] border-t border-white/10">
+        <footer className="relative border-t border-white/10 mt-10">
             {/* Gradient accent line */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-600 to-transparent" />
 
-            <div className="container mx-auto px-4 md:px-6 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div className="container mx-auto px-4 md:px-6 py-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {/* Brand Column */}
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                         <Link href="#home" className="flex items-center gap-2 group">
-                            <motion.div
-                                className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 to-cyan-500"
-                                whileHover={{ scale: 1.05 }}
-                            >
-                                <Zap className="w-5 h-5 text-white" />
-                            </motion.div>
-                            <span
-                                className="text-lg font-bold tracking-wide"
-                                style={{ fontFamily: "var(--font-orbitron)" }}
-                            >
-                                <span className="gradient-text">FAIZ KHAN</span>
-                                <span className="text-white"> DIGITAL</span>
+                            <Zap className="w-5 h-5 text-cyan-400" />
+                            <span className="text-lg font-bold">
+                                FAIZ KHAN <span className="text-purple-400">DIGITAL</span>
                             </span>
                         </Link>
-                        <p className="text-gray-400 text-sm leading-relaxed">
+                        <p className="text-white/60 text-sm leading-relaxed">
                             Transforming digital presence with cutting-edge marketing
                             strategies and expert guidance. Your success is our mission.
                         </p>
@@ -77,7 +68,7 @@ export default function Footer() {
                                     key={social.label}
                                     href={social.href}
                                     whileHover={{ scale: 1.1, y: -2 }}
-                                    className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-purple-400 hover:border-purple-500/50 transition-colors"
+                                    className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-cyan-400 hover:border-cyan-400/50 transition-colors"
                                     aria-label={social.label}
                                 >
                                     <social.icon className="w-4 h-4" />
@@ -88,18 +79,15 @@ export default function Footer() {
 
                     {/* Quick Links */}
                     <div>
-                        <h3
-                            className="text-white font-semibold mb-6 text-sm uppercase tracking-wider"
-                            style={{ fontFamily: "var(--font-orbitron)" }}
-                        >
+                        <h3 className="text-white font-semibold mb-4 text-sm">
                             Quick Links
                         </h3>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2">
                             {quickLinks.map((link) => (
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                                        className="text-white/60 hover:text-purple-400 transition-colors text-sm"
                                     >
                                         {link.label}
                                     </Link>
@@ -110,18 +98,15 @@ export default function Footer() {
 
                     {/* Services */}
                     <div>
-                        <h3
-                            className="text-white font-semibold mb-6 text-sm uppercase tracking-wider"
-                            style={{ fontFamily: "var(--font-orbitron)" }}
-                        >
+                        <h3 className="text-white font-semibold mb-4 text-sm">
                             Our Services
                         </h3>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2">
                             {services.map((service, index) => (
                                 <li key={index}>
                                     <Link
                                         href={service.href}
-                                        className="text-gray-400 hover:text-cyan-400 transition-colors text-sm"
+                                        className="text-white/60 hover:text-cyan-400 transition-colors text-sm"
                                     >
                                         {service.label}
                                     </Link>
@@ -132,48 +117,45 @@ export default function Footer() {
 
                     {/* Contact Info */}
                     <div>
-                        <h3
-                            className="text-white font-semibold mb-6 text-sm uppercase tracking-wider"
-                            style={{ fontFamily: "var(--font-orbitron)" }}
-                        >
+                        <h3 className="text-white font-semibold mb-4 text-sm">
                             Contact Info
                         </h3>
-                        <ul className="space-y-4">
+                        <ul className="space-y-3">
                             <li className="flex items-start gap-3">
                                 <Mail className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
-                                <span className="text-gray-400 text-sm">
+                                <span className="text-white/60 text-sm">
                                     faizkhandigital@gmail.com
                                 </span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Phone className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
-                                <span className="text-gray-400 text-sm">
+                                <span className="text-white/60 text-sm">
                                     Available on WhatsApp
                                 </span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <MapPin className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
-                                <span className="text-gray-400 text-sm">Based in India</span>
+                                <span className="text-white/60 text-sm">Based in India</span>
                             </li>
                         </ul>
                     </div>
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p className="text-gray-500 text-sm">
+                <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p className="text-white/40 text-sm">
                         © {currentYear} Faiz Khan Digital. All rights reserved.
                     </p>
                     <div className="flex gap-6">
                         <Link
                             href="#"
-                            className="text-gray-500 hover:text-gray-300 text-sm transition-colors"
+                            className="text-white/40 hover:text-white/80 text-sm transition-colors"
                         >
                             Privacy Policy
                         </Link>
                         <Link
                             href="#"
-                            className="text-gray-500 hover:text-gray-300 text-sm transition-colors"
+                            className="text-white/40 hover:text-white/80 text-sm transition-colors"
                         >
                             Terms of Service
                         </Link>

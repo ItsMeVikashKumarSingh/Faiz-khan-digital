@@ -134,7 +134,7 @@ export default function CoursesSection() {
                 <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-3xl" />
             </div>
 
-            <div className="container mx-auto px-4 md:px-6">
+            <div className="container mx-auto px-6 md:px-12 lg:px-20">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}

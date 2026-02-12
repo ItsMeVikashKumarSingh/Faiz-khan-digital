@@ -7,11 +7,15 @@ import VideoTestimonialsSection from "@/components/sections/VideoTestimonialsSec
 import AboutSection from "@/components/sections/AboutSection";
 import ContactSection from "@/components/sections/ContactSection";
 import FloatingWhatsAppButton from "@/components/layout/FloatingWhatsAppButton";
+import IntroductionVideo from "@/components/sections/IntroductionVideo";
+import FloatingStats from "@/components/sections/FloatingStats";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
+      <IntroductionVideo />
+      <FloatingStats />
       <ServicesSection />
       <PackagesSection />
       <ResultsSection />

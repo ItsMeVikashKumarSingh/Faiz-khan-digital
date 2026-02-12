@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Orbitron } from "next/font/google";
+import { Orbitron, Outfit } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import Footer from "../components/layout/Footer";
+import Footer from "@/components/layout/Footer";
+import OrbsBackground from "@/components/layout/OrbsBackground";
 
-const inter = Inter({
-  variable: "--font-inter",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -34,9 +35,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${orbitron.variable} antialiased`}
-        style={{ fontFamily: "var(--font-inter), Arial, sans-serif" }}
+        className={`${outfit.variable} ${orbitron.variable} antialiased`}
+        style={{ fontFamily: "var(--font-outfit), sans-serif" }}
       >
+        <OrbsBackground />
         <Header />
         <main>{children}</main>
         <Footer />
