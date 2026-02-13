@@ -1,5 +1,19 @@
 # Version History
 
+## 0.4.0 (2026-02-13)
+- **Legal Compliance:** Added Privacy Policy, Terms & Conditions, and Refund Policy pages.
+- **UI Enhancements:**
+    - Standardized `Button`, `Input`, `Textarea`, `Card`, and `Toast` components.
+    - Improved course card layout with discounted pricing and badges.
+- **Functionality:**
+    - Integrated Web3Form for contact inquiries.
+    - Replaced direct payment links with "Payment not integrated" toast notification.
+    - Implemented scroll-aware Header (hide on scroll down, show on scroll up).
+    - Added legal links to Footer.
+- **Configuration:**
+    - Added `placehold.co` to `next.config.ts`.
+    - Added `NEXT_PUBLIC_WEB3FORM_KEY` environment variable.
+
 ## 0.3.0 (2026-02-12)
 - **Major UI Redesign:** Implemented "SkyGlass" theme with deep obsidian background and glassmorphism elements.
 - **New Components:**

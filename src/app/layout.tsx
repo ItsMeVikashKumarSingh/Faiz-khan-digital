@@ -27,6 +27,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { ToastProvider } from "@/components/ui/Toast";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,10 +40,12 @@ export default function RootLayout({
         className={`${outfit.variable} ${orbitron.variable} antialiased`}
         style={{ fontFamily: "var(--font-outfit), sans-serif" }}
       >
-        <OrbsBackground />
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <ToastProvider>
+          <OrbsBackground />
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </ToastProvider>
       </body>
     </html>
   );

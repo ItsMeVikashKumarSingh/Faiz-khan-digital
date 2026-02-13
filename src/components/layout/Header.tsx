@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X, Zap, Cloud } from "lucide-react";
 import Link from "next/link";
 
@@ -17,6 +17,17 @@ const navLinks = [
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [hidden, setHidden] = useState(false);
+    const { scrollY } = useScroll();
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const previous = scrollY.getPrevious() ?? 0;
+        if (latest > previous && latest > 150) {
+            setHidden(true);
+        } else {
+            setHidden(false);
+        }
+    });
 
     // Close mobile menu on resize if screen becomes large
     useEffect(() => {
@@ -32,10 +43,14 @@ export default function Header() {
     return (
         <>
             <motion.nav
-                initial={{ y: -100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
+                variants={{
+                    visible: { y: 0, opacity: 1 },
+                    hidden: { y: -100, opacity: 0 },
+                }}
+                initial="visible"
+                animate={hidden ? "hidden" : "visible"}
                 style={{ translateX: "-50%" }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="fixed top-8 left-1/2 w-[calc(100%-3rem)] max-w-[1000px] px-6 py-3 rounded-full flex justify-between items-center z-50 glass-panel md:w-[90%]"
             >
                 {/* Logo */}
