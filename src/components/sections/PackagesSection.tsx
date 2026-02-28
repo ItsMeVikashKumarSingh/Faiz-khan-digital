@@ -3,73 +3,29 @@
 import { motion } from "framer-motion";
 import { Check, X, Sparkles } from "lucide-react";
 import Link from "next/link";
-
-interface PackageFeature {
-    text: string;
-    included: boolean;
-}
-
-interface Package {
-    name: string;
-    isPopular?: boolean;
-    features: PackageFeature[];
-    ctaText: string;
-    highlight?: boolean;
-}
-
-const packages: Package[] = [
-    {
-        name: "Basic Package",
-        features: [
-            { text: "Lead generation ads", included: true },
-            { text: "Creative ads editing", included: true },
-            { text: "Unlimited Sales ads", included: true },
-            { text: "WhatsApp support", included: true },
-            { text: "WhatsApp and call support", included: true },
-            { text: "Run your ads 7 days", included: true },
-            { text: "Need Facebook account", included: false },
-        ],
-        ctaText: "Select",
-    },
-    {
-        name: "Essential Package",
-        isPopular: true,
-        highlight: true,
-        features: [
-            { text: "Lead generation ads", included: true },
-            { text: "Online followers campaign", included: true },
-            { text: "Affiliate/Network/MLM Marketing", included: true },
-            { text: "Telegram/Dropshipping/Astrology Ads", included: true },
-            { text: "Creative ads editing", included: true },
-            { text: "Unlimited Sales ads", included: true },
-            { text: "WhatsApp support", included: true },
-            { text: "WhatsApp & call support", included: true },
-            { text: "Account manager", included: true },
-            { text: "Run your ads 15 days", included: true },
-            { text: "NO Need Facebook account", included: true },
-        ],
-        ctaText: "Select",
-    },
-    {
-        name: "Pro Package",
-        features: [
-            { text: "Lead generation ads", included: true },
-            { text: "Online followers campaign", included: true },
-            { text: "Affiliate/Network/MLM Marketing", included: true },
-            { text: "Telegram/Dropshipping/Astrology Ads", included: true },
-            { text: "Creative ads editing", included: true },
-            { text: "Unlimited Sales ads", included: true },
-            { text: "Landing page-personal ads manager", included: true },
-            { text: "WhatsApp, calling & weekly zoom support", included: true },
-            { text: "2 dedicated ads managers", included: true },
-            { text: "Account manager", included: true },
-            { text: "Run your ads 30 days", included: true },
-        ],
-        ctaText: "Contact Us",
-    },
-];
+import { useEffect, useState } from "react";
+import { getPackages } from "@/lib/cms";
+import { Package } from "@/types";
 
 export default function PackagesSection() {
+    const [packages, setPackages] = useState<Package[]>([]);
+
+    useEffect(() => {
+        const loadPackages = async () => {
+            const fetched = await getPackages();
+            if (fetched && fetched.length > 0) {
+                // Map highlight logic based on isPopular for now or keep staticPackages style
+                const mapped: Package[] = fetched.map((pkg) => ({
+                    ...pkg,
+                    highlight: pkg.isPopular, // Highlight popular by default
+                    ctaText: pkg.name.toLowerCase().includes("pro") ? "Contact Us" : "Select"
+                }));
+                setPackages(mapped);
+            }
+        };
+        loadPackages();
+    }, []);
+
     return (
         <section id="packages" className="py-12 md:py-24 relative">
             <div className="container mx-auto px-6 md:px-12 lg:px-20">

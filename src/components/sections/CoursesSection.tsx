@@ -1,141 +1,41 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Check, Sparkles, CreditCard } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
-
-interface Course {
-    id: number;
-    title: string;
-    description: string;
-    price: string;
-    originalPrice: string;
-    image: string;
-    features: string[];
-    ctaText: string;
-    badge?: string;
-    isBundle?: boolean;
-}
-
-const courses: Course[] = [
-    {
-        id: 1,
-        title: "DIGITAL ADS MEGA BUNDLE",
-        description:
-            "Complete step-by-step training from basic setup to advanced scaling strategies.",
-        price: "₹999/-",
-        originalPrice: "₹4,999/-",
-        image: "https://placehold.co/600x400/9333ea/ffffff?text=Mega+Bundle",
-        features: [
-            "Messaging Ads Strategy",
-            "High-Converting Lead Forms",
-            "Affiliate Marketing Blueprint",
-            "Selling Digital Products",
-            "Telegram Growth Ads",
-            "Includes New 2026 Updates",
-        ],
-        ctaText: "GET INSTANT ACCESS",
-        badge: "BEST VALUE",
-        isBundle: true,
-    },
-    {
-        id: 2,
-        title: "META ADS COURSE",
-        description:
-            "Master the art of advertising on Meta platforms (Facebook and Instagram).",
-        price: "₹4,999/-",
-        originalPrice: "₹9,999/-",
-        image: "https://placehold.co/600x400/22d3ee/000000?text=Meta+Ads",
-        features: [
-            "Campaign structure and audience targeting",
-            "Create compelling ads with high CTR",
-            "Leads, sales, call bookings & retargeting",
-            "Step-by-step funnel training",
-            "Maximize ROI through tracking",
-        ],
-        ctaText: "Enroll Now",
-    },
-    {
-        id: 3,
-        title: "GOOGLE ADS COURSE",
-        description:
-            "Master the art of advertising on Google platforms (Youtube & Google).",
-        price: "₹4,999/-",
-        originalPrice: "₹9,999/-",
-        image: "https://placehold.co/600x400/db4a39/ffffff?text=Google+Ads",
-        features: [
-            "Leads, Sales & Call Booking Strategies",
-            "Campaign Structure & Keyword Research",
-            "Step-by-Step Funnel Training",
-            "Budget Scaling & Smart Bidding",
-            "Optimization & ROI Boosting",
-        ],
-        ctaText: "Enroll Now",
-    },
-    {
-        id: 4,
-        title: "WEBSITE DEVELOPMENT",
-        description:
-            "Build stunning, fast, and SEO-friendly websites without coding.",
-        price: "₹4,999/-",
-        originalPrice: "₹8,999/-",
-        image: "https://placehold.co/600x400/0f9d58/ffffff?text=Web+Dev",
-        features: [
-            "Learn WordPress & Elementor",
-            "Build responsive, mobile-friendly designs",
-            "Create landing pages for leads",
-            "Domains, hosting, and SSL setup",
-            "Beginner friendly - no coding",
-        ],
-        ctaText: "Enroll Now",
-        badge: "NEW",
-    },
-    {
-        id: 5,
-        title: "WHATSAPP BUSINESS API",
-        description:
-            "Everything you need to get started with your business communication.",
-        price: "₹9,999/-",
-        originalPrice: "₹14,999/-",
-        image: "https://placehold.co/600x400/25d366/ffffff?text=WhatsApp+API",
-        features: [
-            "10,000 Audience Management",
-            "10,000 Broadcasting / month via API",
-            "Advance Chatflow Builder",
-            "Auto Message Campaigns",
-            "Chat Inbox with Tickets System",
-            "AI Automation for queries",
-        ],
-        ctaText: "Subscribe Now",
-    },
-    {
-        id: 6,
-        title: "US META AGENCY ACCOUNT",
-        description: "Premium US-based Meta Agency Account for unlimited advertising.",
-        price: "₹16,200/-",
-        originalPrice: "₹25,000/-",
-        image: "https://placehold.co/600x400/1877f2/ffffff?text=Agency+Account",
-        features: [
-            "1 AD ACCOUNT with Business Manager",
-            "Run Ads on Restricted Category",
-            "No GST (18% Saving)",
-            "Unlimited Spend - No caps",
-            "$100 credit for running ads",
-            "24/7 human support",
-        ],
-        ctaText: "Buy Now",
-        badge: "PREMIUM",
-    },
-];
+import { getCourses } from "@/lib/cms";
+import { Course } from "@/types";
 
 export default function CoursesSection() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const { showToast } = useToast();
+    const [courseList, setCourseList] = useState<Course[]>([]);
+
+    useEffect(() => {
+        const loadCourses = async () => {
+            const fetched = await getCourses();
+            if (fetched && fetched.length > 0) {
+                const mapped: Course[] = fetched.map((c) => ({
+                    ...c,
+                    ctaText: c.ctaText || "Enroll Now",
+                    badge: c.badge || c.saveBadge,
+                    isBundle: c.isBundle || c.title.toLowerCase().includes("bundle"),
+                    price: c.mainPrice // Ensure price property exists for UI usage if interface differs
+                }));
+                // Note: The interface has 'mainPrice', component uses 'price'. 
+                // We map 'price' in the object above.
+                // However, the Course interface in types.ts has 'price' as optional.
+                // We should make sure we use the right property in the UI.
+                setCourseList(mapped);
+            }
+        };
+        loadCourses();
+    }, []);
 
     const handleEnroll = () => {
         showToast("Payment option not integrated", "info");
@@ -172,9 +72,9 @@ export default function CoursesSection() {
 
                 {/* Courses Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {courses.map((course, index) => (
+                    {courseList.map((course, index) => (
                         <motion.div
-                            key={course.id}
+                            key={course.$id || index}
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.5, delay: index * 0.1 }}

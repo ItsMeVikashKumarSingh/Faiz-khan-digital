@@ -1,22 +1,25 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { TrendingUp } from "lucide-react";
-
-// Placeholder results - in production, fetch from DB
-const results = [
-    { id: 1, title: "E-commerce Campaign", metric: "320% ROI" },
-    { id: 2, title: "Lead Generation", metric: "2.5K Leads" },
-    { id: 3, title: "Brand Awareness", metric: "1M+ Reach" },
-    { id: 4, title: "App Installs", metric: "50K+ Downloads" },
-    { id: 5, title: "Sales Campaign", metric: "₹10L Revenue" },
-    { id: 6, title: "Engagement Boost", metric: "500% Engagement" },
-];
+import { getResults } from "@/lib/cms";
+import { Result } from "@/types";
 
 export default function ResultsSection() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const [results, setResults] = useState<Result[]>([]);
+
+    useEffect(() => {
+        const loadResults = async () => {
+            const fetched = await getResults();
+            if (fetched && fetched.length > 0) {
+                setResults(fetched);
+            }
+        };
+        loadResults();
+    }, []);
 
     return (
         <section id="results" className="relative py-24" ref={ref}>
@@ -43,7 +46,7 @@ export default function ResultsSection() {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                     {results.map((result, index) => (
                         <motion.div
-                            key={result.id}
+                            key={result.$id || index}
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={isInView ? { opacity: 1, scale: 1 } : {}}
                             transition={{ duration: 0.5, delay: index * 0.1 }}

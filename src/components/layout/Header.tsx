@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Menu, X, Zap, Cloud } from "lucide-react";
+import { Menu, X, Zap } from "lucide-react";
 import Link from "next/link";
 
 const navLinks = [

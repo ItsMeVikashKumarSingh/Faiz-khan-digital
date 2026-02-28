@@ -3,8 +3,28 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getHeroData } from "@/lib/cms";
 
 export default function HeroSection() {
+    const [data, setData] = useState({
+        titleLine1: "Digital Presence",
+        titleLine2: "Reimagined",
+        subtitle: "Transform your brand with expert strategies. Zero guesswork, infinite scalability, and verified results.",
+        ctaPrimary: "Start Building",
+        ctaSecondary: "Explore Services"
+    });
+
+    useEffect(() => {
+        const loadHeroData = async () => {
+            const hero = await getHeroData();
+            if (hero) {
+                setData(prev => ({ ...prev, ...hero }));
+            }
+        };
+        loadHeroData();
+    }, []);
+
     return (
         <section
             id="home"
@@ -26,23 +46,22 @@ export default function HeroSection() {
                     {/* Main Heading */}
                     <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8 tracking-tight"
                         style={{ fontFamily: "var(--font-orbitron)" }}>
-                        Digital Presence<br />
-                        <span className="gradient-text">Reimagined</span>
+                        {data.titleLine1}<br />
+                        <span className="gradient-text">{data.titleLine2}</span>
                     </h1>
 
                     {/* Subtitle */}
                     <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
-                        Transform your brand with expert strategies.
-                        Zero guesswork, infinite scalability, and verified results.
+                        {data.subtitle}
                     </p>
 
                     {/* CTA Buttons */}
                     <div className="flex flex-wrap items-center justify-center gap-4">
                         <Link href="#contact" className="btn-glass bg-white/10 border-cyan-400/50 hover:bg-white/20 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] !px-8 !py-4 !text-lg">
-                            Start Building <ArrowRight className="w-5 h-5 ml-2" />
+                            {data.ctaPrimary} <ArrowRight className="w-5 h-5 ml-2" />
                         </Link>
                         <Link href="#services" className="btn-glass !px-8 !py-4 !text-lg">
-                            Explore Services
+                            {data.ctaSecondary}
                         </Link>
                     </div>
                 </motion.div>

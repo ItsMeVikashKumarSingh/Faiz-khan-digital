@@ -1,5 +1,14 @@
 # Version History
 
+## 0.5.1 (2026-02-28)
+- **Dependencies:** Added `@sentry/nextjs`, `@supabase/supabase-js`, `appwrite`, and `node-appwrite`.
+- **Code Quality:** Fixed ESLint warnings and errors across components and scripts.
+- **Bug Fixes:**
+    - Resolved `any` type errors in `AboutSection`, `ServicesSection`, and `auth.ts`.
+    - Fixed `<img>` tag warnings.
+    - Cleaned up unused variables and imports in `Header`, `IntroductionVideo`, and `cms.ts`.
+- **Database Setup:** Added Appwrite database seed and setup script.
+
 ## 0.4.0 (2026-02-13)
 - **Legal Compliance:** Added Privacy Policy, Terms & Conditions, and Refund Policy pages.
 - **UI Enhancements:**

@@ -1,30 +1,35 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
-
-interface Video {
-    id: number;
-    title: string;
-    category: string;
-    thumbnail?: string;
-    youtubeId?: string;
-}
-
-const videos: Video[] = [
-    { id: 1, title: "Meta Ads Success", category: "Meta Ads" },
-    { id: 2, title: "Student Success #1", category: "Student" },
-    { id: 3, title: "Client Campaign", category: "Client" },
-    { id: 4, title: "Google Ads Win", category: "Google Ads" },
-    { id: 5, title: "Performance", category: "Analysis" },
-    { id: 6, title: "Top Campaign", category: "Best Results" },
-];
+import { getVideos } from "@/lib/cms";
+import { Video } from "@/types";
 
 export default function VideoTestimonialsSection() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const [videos, setVideos] = useState<Video[]>([]);
     const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+
+    useEffect(() => {
+        const loadVideos = async () => {
+            const fetched = await getVideos();
+            if (fetched && fetched.length > 0) {
+                const mapped: Video[] = fetched.map((v) => ({
+                    $id: v.$id,
+                    title: v.url.includes('youtube.com') ? "YouTube Video" : "Video Result",
+                    category: "Result",
+                    thumbnail: v.thumbnail,
+                    url: v.url,
+                    youtubeId: v.url.split('v=')[1]?.split('&')[0] || v.url.split('/').pop()
+                }));
+                setVideos(mapped);
+            }
+        };
+        loadVideos();
+    }, []);
 
     return (
         <section className="relative py-24" ref={ref}>
@@ -51,7 +56,7 @@ export default function VideoTestimonialsSection() {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                     {videos.map((video, index) => (
                         <motion.div
-                            key={video.id}
+                            key={video.$id || index}
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -60,6 +65,13 @@ export default function VideoTestimonialsSection() {
                         >
                             {/* Placeholder/Thumbnail */}
                             <div className="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-cyan-900/50" />
+                            {video.thumbnail && (
+                                <img
+                                    src={video.thumbnail}
+                                    alt={video.title}
+                                    className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity"
+                                />
+                            )}
 
                             {/* Play Button */}
                             <div className="absolute inset-0 flex items-center justify-center">
@@ -112,15 +124,29 @@ export default function VideoTestimonialsSection() {
                                 <X className="w-5 h-5 text-white" />
                             </button>
 
-                            {/* Placeholder - Replace with actual video embed */}
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-                                <Play className="w-16 h-16 text-purple-400 mb-4" />
-                                <h3 className="text-xl font-bold text-white mb-2">
-                                    {selectedVideo.title}
-                                </h3>
-                                <p className="text-gray-400">
-                                    Video content will be embedded here
-                                </p>
+                            {/* Video Content */}
+                            <div className="absolute inset-0">
+                                {selectedVideo.url ? (
+                                    <iframe
+                                        src={selectedVideo.url.includes('youtube.com')
+                                            ? `https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1`
+                                            : selectedVideo.url
+                                        }
+                                        className="w-full h-full"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                ) : (
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                                        <Play className="w-16 h-16 text-purple-400 mb-4" />
+                                        <h3 className="text-xl font-bold text-white mb-2">
+                                            {selectedVideo.title}
+                                        </h3>
+                                        <p className="text-gray-400">
+                                            Video content not available
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </motion.div>
                     </motion.div>

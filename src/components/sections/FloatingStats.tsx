@@ -1,8 +1,33 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { getStats } from "@/lib/cms";
+import { Stat } from "@/types";
 
 export default function FloatingStats() {
+    const [stats, setStats] = useState<Stat[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const loadStats = async () => {
+            const fetchedStats = await getStats();
+            if (fetchedStats && fetchedStats.length > 0) {
+                setStats(fetchedStats);
+            }
+        };
+        loadStats();
+    }, []);
+
+    useEffect(() => {
+        if (stats.length > 1) {
+            const timer = setInterval(() => {
+                setCurrentIndex((prev) => (prev + 1) % stats.length);
+            }, 5000);
+            return () => clearInterval(timer);
+        }
+    }, [stats]);
+
     return (
         <div className="relative h-[250px] md:h-[300px] max-w-[1000px] mx-auto my-8 md:my-12 flex justify-center items-center overflow-hidden z-10">
             <motion.div
@@ -17,8 +42,25 @@ export default function FloatingStats() {
                     repeat: Infinity,
                 }}
             >
-                <span className="text-5xl font-bold text-white mb-2">3+</span>
-                <span className="text-sm uppercase tracking-widest text-[#00f2ea]">Years Exp.</span>
+                <AnimatePresence mode="wait">
+                    {stats.length > 0 && (
+                        <motion.div
+                            key={currentIndex}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            transition={{ duration: 0.5 }}
+                            className="text-center"
+                        >
+                            <span className="text-5xl font-bold text-white mb-2">
+                                {stats[currentIndex].prefix}{stats[currentIndex].value}{stats[currentIndex].suffix}
+                            </span>
+                            <div className="text-sm uppercase tracking-widest text-[#00f2ea]">
+                                {stats[currentIndex].label}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </motion.div>
 
             {/* Decorative Shards */}
