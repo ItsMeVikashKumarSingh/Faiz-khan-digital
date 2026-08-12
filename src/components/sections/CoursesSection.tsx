@@ -37,8 +37,28 @@ export default function CoursesSection() {
         loadCourses();
     }, []);
 
-    const handleEnroll = () => {
-        showToast("Payment option not integrated", "info");
+    const handleEnroll = (course: Course) => {
+        if (course.link && course.link !== "#") {
+            if (course.link.startsWith("http")) {
+                window.open(course.link, "_blank");
+            } else if (course.link.startsWith("#")) {
+                const el = document.querySelector(course.link);
+                if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                } else {
+                    window.location.href = course.link;
+                }
+            } else {
+                window.location.href = course.link;
+            }
+        } else {
+            const contactEl = document.querySelector("#contact");
+            if (contactEl) {
+                contactEl.scrollIntoView({ behavior: "smooth" });
+            } else {
+                showToast("Payment option not integrated", "info");
+            }
+        }
     };
 
     return (
@@ -150,7 +170,7 @@ export default function CoursesSection() {
 
                                 {/* CTA Button */}
                                 <Button
-                                    onClick={handleEnroll}
+                                    onClick={() => handleEnroll(course)}
                                     variant={course.isBundle ? "primary" : "secondary"}
                                     icon={<CreditCard className="w-4 h-4" />}
                                     className="w-full"

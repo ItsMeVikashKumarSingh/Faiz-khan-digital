@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Orbitron, Outfit } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import OrbsBackground from "@/components/layout/OrbsBackground";
+import ConditionalLayout from "@/components/layout/ConditionalLayout";
+import { ToastProvider } from "@/components/ui/Toast";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -27,8 +26,6 @@ export const metadata: Metadata = {
   },
 };
 
-import { ToastProvider } from "@/components/ui/Toast";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -41,12 +38,10 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-outfit), sans-serif" }}
       >
         <ToastProvider>
-          <OrbsBackground />
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <ConditionalLayout>{children}</ConditionalLayout>
         </ToastProvider>
       </body>
     </html>
   );
 }
+

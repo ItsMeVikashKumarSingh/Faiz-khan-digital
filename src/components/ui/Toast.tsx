@@ -1,10 +1,10 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { CheckCircle, AlertCircle, X, Info } from "lucide-react";
+import { CheckCircle, AlertCircle, X, Info, AlertTriangle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-type ToastType = "success" | "error" | "info";
+type ToastType = "success" | "error" | "info" | "warning";
 
 interface Toast {
     id: string;
@@ -50,6 +50,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                             {toast.type === "success" && <CheckCircle className="w-5 h-5 text-green-400" />}
                             {toast.type === "error" && <AlertCircle className="w-5 h-5 text-red-400" />}
                             {toast.type === "info" && <Info className="w-5 h-5 text-blue-400" />}
+                            {toast.type === "warning" && <AlertTriangle className="w-5 h-5 text-amber-400" />}
 
                             <p className="text-sm font-medium flex-1">{toast.message}</p>
 

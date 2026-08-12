@@ -77,7 +77,7 @@ const COLLECTIONS = [
             { key: 'tsm_title', type: 'string', size: 255, required: true },
             { key: 'tsm_description', type: 'string', size: 1000, required: true },
             { key: 'tsm_icon', type: 'string', size: 100, required: true },
-            { key: 'tsm_order', type: 'integer', required: true, default: 0 },
+            { key: 'tsm_order', type: 'integer', required: false, default: 0 },
         ],
         publicRead: true
     },
@@ -89,8 +89,8 @@ const COLLECTIONS = [
             { key: 'tpm_name', type: 'string', size: 255, required: true },
             { key: 'tpm_price', type: 'string', size: 100, required: true },
             { key: 'tpm_features', type: 'string', size: 2000, required: true }, // JSON array
-            { key: 'tpm_is_popular', type: 'boolean', required: true, default: false },
-            { key: 'tpm_order', type: 'integer', required: true, default: 0 },
+            { key: 'tpm_is_popular', type: 'boolean', required: false, default: false },
+            { key: 'tpm_order', type: 'integer', required: false, default: 0 },
         ],
         publicRead: true
     },
@@ -102,7 +102,9 @@ const COLLECTIONS = [
             { key: 'tr_type', type: 'string', size: 50, required: true },
             { key: 'tr_url', type: 'string', size: 2000, required: true },
             { key: 'tr_thumbnail', type: 'string', size: 2000, required: false },
-            { key: 'tr_order', type: 'integer', required: true, default: 0 },
+            { key: 'tr_title', type: 'string', size: 255, required: false },
+            { key: 'tr_metric', type: 'string', size: 255, required: false },
+            { key: 'tr_order', type: 'integer', required: false, default: 0 },
         ],
         publicRead: true
     },
@@ -131,7 +133,7 @@ const COLLECTIONS = [
             { key: 'tsm_prefix', type: 'string', size: 20, required: false },
             { key: 'tsm_suffix', type: 'string', size: 20, required: false },
             { key: 'tsm_icon', type: 'string', size: 50, required: false },
-            { key: 'tsm_order', type: 'integer', required: true, default: 0 },
+            { key: 'tsm_order', type: 'integer', required: false, default: 0 },
         ],
         publicRead: true
     },
@@ -160,6 +162,132 @@ const PREFIX_SEEDS = [
     { tpm_table_name: 'tbl_audit_logs', tpm_prefix_code: 'tal', tpm_number_length: 6, tpm_last_number: 0 },
 ];
 
+const SERVICES_SEEDS = [
+    { tsm_title: 'Performance Marketing', tsm_description: 'Data-driven ad campaigns on Meta, Google, and TikTok that deliver high ROI.', tsm_icon: 'TrendingUp', tsm_order: 1 },
+    { tsm_title: 'Brand Strategy & Design', tsm_description: 'Crafting unique brand identities, visual assets, and high-converting landing pages.', tsm_icon: 'Palette', tsm_order: 2 },
+    { tsm_title: 'Social Media Growth', tsm_description: 'Organic content creation, community management, and viral video strategies.', tsm_icon: 'Share2', tsm_order: 3 },
+    { tsm_title: 'Funnel Optimization', tsm_description: 'Optimizing your sales funnels and conversion rate for maximum profitability.', tsm_icon: 'Zap', tsm_order: 4 },
+    { tsm_title: 'SEO & Content Marketing', tsm_description: 'Rank #1 on Google with high-intent keywords and strategic authority content.', tsm_icon: 'Search', tsm_order: 5 },
+    { tsm_title: 'Automation & CRM', tsm_description: 'Automating lead capture, email nurturing, and customer retention workflows.', tsm_icon: 'Cpu', tsm_order: 6 },
+];
+
+const PACKAGES_SEEDS = [
+    {
+        tpm_name: 'Starter Plan',
+        tpm_price: '₹25,000 / mo',
+        tpm_features: JSON.stringify([
+            { text: 'Meta & Instagram Ads Management', included: true },
+            { text: 'Basic Landing Page Creation', included: true },
+            { text: 'Weekly Performance Reports', included: true },
+            { text: 'Dedicated Account Manager', included: false },
+            { text: 'Custom Video Ad Creatives', included: false },
+        ]),
+        tpm_is_popular: false,
+        tpm_order: 1
+    },
+    {
+        tpm_name: 'Pro Growth Plan',
+        tpm_price: '₹55,000 / mo',
+        tpm_features: JSON.stringify([
+            { text: 'Meta, Google & TikTok Ads', included: true },
+            { text: 'High-Converting Funnel Design', included: true },
+            { text: 'Dedicated Account Manager', included: true },
+            { text: '8 Custom Video Ad Creatives / mo', included: true },
+            { text: 'A/B Testing & CRO', included: true },
+        ]),
+        tpm_is_popular: true,
+        tpm_order: 2
+    },
+    {
+        tpm_name: 'Enterprise Scale Plan',
+        tpm_price: '₹1,20,000 / mo',
+        tpm_features: JSON.stringify([
+            { text: 'Omnichannel Ad Campaigns (Global)', included: true },
+            { text: 'Full Funnel & Web App Development', included: true },
+            { text: 'Dedicated Growth Team (3 Experts)', included: true },
+            { text: 'Unlimited Creative Revisions', included: true },
+            { text: 'Weekly Strategy Calls with Mentor', included: true },
+        ]),
+        tpm_is_popular: false,
+        tpm_order: 3
+    }
+];
+
+const COURSES_SEEDS = [
+    {
+        tcm_title: 'Complete Meta Ads Mastery 2026',
+        tcm_main_price: '₹4,999',
+        tcm_original_price: '₹14,999',
+        tcm_save_badge: '67% OFF',
+        tcm_image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+        tcm_features: JSON.stringify([
+            'Step-by-step Meta Ads setup',
+            'ROAS scaling strategies',
+            'Retargeting & custom audiences',
+            'Creative copy formulas',
+            'Lifetime updates & community access'
+        ]),
+        tcm_link: '#contact'
+    },
+    {
+        tcm_title: 'Agency Growth Bundle 2.0',
+        tcm_main_price: '₹9,999',
+        tcm_original_price: '₹29,999',
+        tcm_save_badge: 'BESTSELLER',
+        tcm_image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80',
+        tcm_features: JSON.stringify([
+            'Client acquisition SOPs',
+            'Cold email templates & scripts',
+            'High-ticket closing framework',
+            'Agency contract templates',
+            '1-on-1 Q&A sessions'
+        ]),
+        tcm_link: '#contact'
+    }
+];
+
+const STATS_SEEDS = [
+    { tsm_label: 'Ad Spend Managed', tsm_value: '50', tsm_prefix: '₹', tsm_suffix: 'Cr+', tsm_icon: 'DollarSign', tsm_order: 1 },
+    { tsm_label: 'Clients Scaled', tsm_value: '150', tsm_prefix: '', tsm_suffix: '+', tsm_icon: 'Users', tsm_order: 2 },
+    { tsm_label: 'Average ROAS', tsm_value: '4.8', tsm_prefix: '', tsm_suffix: 'x', tsm_icon: 'TrendingUp', tsm_order: 3 },
+    { tsm_label: 'Leads Generated', tsm_value: '1', tsm_prefix: '', tsm_suffix: 'M+', tsm_icon: 'Zap', tsm_order: 4 }
+];
+
+const RESULTS_SEEDS = [
+    { tr_type: 'image', tr_url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80', tr_thumbnail: '', tr_title: 'E-commerce Brand 5.2x ROAS', tr_metric: '5.2x ROAS', tr_order: 1 },
+    { tr_type: 'video', tr_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', tr_thumbnail: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80', tr_title: 'Real Estate Lead Gen Campaign', tr_metric: '1,200+ Leads', tr_order: 2 }
+];
+
+const GLOBALS_SEEDS = [
+    {
+        tgm_slug: 'hero',
+        tgm_content: JSON.stringify({
+            titleLine1: 'Digital Presence',
+            titleLine2: 'Reimagined',
+            subtitle: 'Transform your brand with expert strategies. Zero guesswork, infinite scalability, and verified results.',
+            ctaPrimary: 'Start Building',
+            ctaSecondary: 'Explore Services'
+        })
+    },
+    {
+        tgm_slug: 'about',
+        tgm_content: JSON.stringify({
+            title: 'Driving Remarkable Results Through Strategic Advertising',
+            description1: "Hey there! 👋 I'm Faiz Khan, your go-to Facebook Ads expert with a proven track record. I've successfully completed over 1000 projects, collaborating with individuals and businesses alike.",
+            description2: "With years of hands-on experience, I understand the ever-evolving landscape of digital advertising. From small startups to established enterprises, I've helped my clients achieve their marketing goals with precision and impact.",
+            mentorName: 'Faiz Khan',
+            mentorRole: 'Facebook Ads Expert & Mentor',
+            mentorImage: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80',
+            features: [
+                'Proven 50Cr+ Ad Spend Management',
+                'Custom Funnel & ROAS Optimization',
+                '1-on-1 Mentorship & Weekly Audits',
+                '1000+ Completed Success Projects'
+            ]
+        })
+    }
+];
+
 async function setup() {
     console.log(`🚀 Starting Database Setup on Project: ${PROJECT_ID}`);
 
@@ -176,17 +304,20 @@ async function setup() {
         }
 
         // 2. Set Permissions
-        if (col.publicRead) {
-            try {
-                await databases.updateCollection(DATABASE_ID, col.id, col.name, [
-                    sdk.Permission.read(sdk.Role.any()), // Public Read
-                ]);
-                console.log(`   - Permissions: Public Read enabled.`);
-            } catch (e) {
-                console.error(`   ! Error setting permissions:`, e.message);
-            }
-        } else {
-            console.log(`   - Permissions: Private/Restricted (Default).`);
+        try {
+            await databases.updateCollection(DATABASE_ID, col.id, col.name, [
+                sdk.Permission.read(sdk.Role.any()),
+                sdk.Permission.create(sdk.Role.any()),
+                sdk.Permission.update(sdk.Role.any()),
+                sdk.Permission.delete(sdk.Role.any()),
+                sdk.Permission.read(sdk.Role.users()),
+                sdk.Permission.create(sdk.Role.users()),
+                sdk.Permission.update(sdk.Role.users()),
+                sdk.Permission.delete(sdk.Role.users()),
+            ]);
+            console.log(`   - Permissions: Full CRUD Enabled.`);
+        } catch (e) {
+            console.error(`   ! Error setting permissions:`, e.message);
         }
 
         // 3. Create Attributes
@@ -201,10 +332,10 @@ async function setup() {
                     await databases.createBooleanAttribute(DATABASE_ID, col.id, attr.key, attr.required, attr.default);
                 }
                 console.log(`     + Created: ${attr.key}`);
-                await new Promise((r) => setTimeout(r, 200));
+                await new Promise((r) => setTimeout(r, 300));
             } catch (e) {
                 if (e.code !== 409) {
-                    // console.error(`     ! Error creating ${attr.key}:`, e.message);
+                    console.error(`     ! Error creating ${attr.key}:`, e.message);
                 }
             }
         }
@@ -212,7 +343,6 @@ async function setup() {
         // 4. Create Indexes
         if (col.indexes) {
             console.log(`   - Checking indexes...`);
-            // Wait for attributes to be available
             await new Promise((r) => setTimeout(r, 2000));
 
             for (const idx of col.indexes) {
@@ -237,10 +367,6 @@ async function setup() {
             ]);
 
             if (existing.total === 0) {
-                // Generate a unique ID for the prefix master record itself
-                // naming convention: pm_[prefix]
-                const docId = `pm_${seed.tpm_prefix_code}_${Math.random().toString(36).substr(2, 5)}`;
-
                 await databases.createDocument(DATABASE_ID, 'tbl_prefix_mstr', sdk.ID.unique(), {
                     ...seed
                 });
@@ -252,6 +378,36 @@ async function setup() {
             console.error(`   ! Error seeding ${seed.tpm_table_name}:`, e.message);
         }
     }
+
+    // 6. Seed Master Tables Data
+    const seedTableData = async (tableId, seeds, matchField) => {
+        console.log(`\n🌱 Seeding ${tableId}...`);
+        for (const item of seeds) {
+            try {
+                const queries = matchField ? [sdk.Query.equal(matchField, item[matchField])] : [];
+                const existing = await databases.listDocuments(DATABASE_ID, tableId, queries);
+                if (existing.total === 0) {
+                    await databases.createDocument(DATABASE_ID, tableId, sdk.ID.unique(), item);
+                    console.log(`   + Seeded record into ${tableId}`);
+                } else {
+                    console.log(`   = Record exists in ${tableId}`);
+                }
+            } catch (e) {
+                console.error(`   ! Error seeding ${tableId}:`, e.message);
+            }
+        }
+    };
+
+    // Wait for attribute indexing in Appwrite before seeding document records
+    console.log(`\n⏳ Waiting 5 seconds for Appwrite attribute indexes to settle...`);
+    await new Promise((r) => setTimeout(r, 5000));
+
+    await seedTableData('tbl_services_mstr', SERVICES_SEEDS, 'tsm_title');
+    await seedTableData('tbl_packages_mstr', PACKAGES_SEEDS, 'tpm_name');
+    await seedTableData('tbl_courses_mstr', COURSES_SEEDS, 'tcm_title');
+    await seedTableData('tbl_stats_mstr', STATS_SEEDS, 'tsm_label');
+    await seedTableData('tbl_results', RESULTS_SEEDS, 'tr_url');
+    await seedTableData('tbl_globals_mstr', GLOBALS_SEEDS, 'tgm_slug');
 
     console.log(`\n✅ Setup Finished Successfully!`);
 }
