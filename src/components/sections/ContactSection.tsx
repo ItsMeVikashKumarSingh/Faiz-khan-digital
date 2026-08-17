@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -8,11 +8,30 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Card } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
+import { getContactInfo } from "@/lib/cms";
+import { ContactInfo } from "@/types";
 
 export default function ContactSection() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const { showToast } = useToast();
+
+    const [contact, setContact] = useState<ContactInfo>({
+        email: "faizkhandigital@gmail.com",
+        phone: "Available on WhatsApp",
+        whatsappLink: "https://wa.link/uwwdyh",
+        location: "Based in India, Serving Worldwide",
+    });
+
+    useEffect(() => {
+        const loadContact = async () => {
+            const data = await getContactInfo();
+            if (data) {
+                setContact(prev => ({ ...prev, ...data }));
+            }
+        };
+        loadContact();
+    }, []);
 
     const [formState, setFormState] = useState({
         name: "",
@@ -95,7 +114,9 @@ export default function ContactSection() {
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-semibold text-white mb-1">Email Us</h3>
-                                        <p className="text-gray-400">faizkhandigital@gmail.com</p>
+                                        <a href={`mailto:${contact.email || "faizkhandigital@gmail.com"}`} className="text-gray-400 hover:text-white transition-colors">
+                                            {contact.email || "faizkhandigital@gmail.com"}
+                                        </a>
                                     </div>
                                 </div>
 
@@ -105,7 +126,18 @@ export default function ContactSection() {
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-semibold text-white mb-1">Call Us</h3>
-                                        <p className="text-gray-400">Available on WhatsApp</p>
+                                        {contact.whatsappLink ? (
+                                            <a
+                                                href={contact.whatsappLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-gray-400 hover:text-cyan-400 transition-colors"
+                                            >
+                                                {contact.phone || "Available on WhatsApp"}
+                                            </a>
+                                        ) : (
+                                            <p className="text-gray-400">{contact.phone || "Available on WhatsApp"}</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -115,7 +147,7 @@ export default function ContactSection() {
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-semibold text-white mb-1">Location</h3>
-                                        <p className="text-gray-400">Based in India, Serving Worldwide</p>
+                                        <p className="text-gray-400">{contact.location || "Based in India, Serving Worldwide"}</p>
                                     </div>
                                 </div>
                             </div>

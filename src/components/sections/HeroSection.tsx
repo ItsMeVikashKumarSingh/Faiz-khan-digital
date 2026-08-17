@@ -12,7 +12,8 @@ export default function HeroSection() {
         titleLine2: "Reimagined",
         subtitle: "Transform your brand with expert strategies. Zero guesswork, infinite scalability, and verified results.",
         ctaPrimary: "Start Building",
-        ctaSecondary: "Explore Services"
+        ctaSecondary: "Explore Services",
+        tagPill: "Premium Digital Marketing Services"
     });
 
     useEffect(() => {
@@ -40,7 +41,9 @@ export default function HeroSection() {
                     {/* Tag Pill */}
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel mb-8 border border-white/10">
                         <Sparkles className="w-4 h-4 text-cyan-400" />
-                        <span className="text-sm text-cyan-400 tracking-wide">Premium Digital Marketing Services</span>
+                        <span className="text-sm text-cyan-400 tracking-wide">
+                            {data.tagPill || "Premium Digital Marketing Services"}
+                        </span>
                     </div>
 
                     {/* Main Heading */}

@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X, Zap } from "lucide-react";
 import Link from "next/link";
+import { getSiteBranding } from "@/lib/cms";
+import { SiteBranding } from "@/types";
 
 const navLinks = [
     { href: "#home", label: "Home" },
@@ -18,7 +20,22 @@ const navLinks = [
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hidden, setHidden] = useState(false);
+    const [branding, setBranding] = useState<SiteBranding>({
+        siteName: "FAIZ KHAN",
+        siteNameHighlight: "DIGITAL",
+        logoUrl: ""
+    });
     const { scrollY } = useScroll();
+
+    useEffect(() => {
+        const loadBranding = async () => {
+            const data = await getSiteBranding();
+            if (data) {
+                setBranding(prev => ({ ...prev, ...data }));
+            }
+        };
+        loadBranding();
+    }, []);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious() ?? 0;
@@ -55,10 +72,24 @@ export default function Header() {
             >
                 {/* Logo */}
                 <Link href="#home" className="flex items-center gap-2 font-bold text-lg tracking-wider">
-                    <Zap className="w-5 h-5 text-cyan-400" />
-                    <span style={{ fontFamily: "var(--font-orbitron)" }}>
-                        FAIZ KHAN <span className="text-purple-400">DIGITAL</span>
-                    </span>
+                    {branding.logoUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                            src={branding.logoUrl}
+                            alt={branding.siteName || "Logo"}
+                            className="h-8 w-auto max-w-[160px] object-contain rounded"
+                        />
+                    ) : (
+                        <>
+                            <Zap className="w-5 h-5 text-cyan-400" />
+                            <span style={{ fontFamily: "var(--font-orbitron)" }}>
+                                {branding.siteName || "FAIZ KHAN"}{" "}
+                                <span className="text-purple-400">
+                                    {branding.siteNameHighlight || "DIGITAL"}
+                                </span>
+                            </span>
+                        </>
+                    )}
                 </Link>
 
                 {/* Desktop Navigation */}

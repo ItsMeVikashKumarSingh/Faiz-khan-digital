@@ -1,15 +1,29 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
+import { getContactInfo } from "@/lib/cms";
 
 export default function FloatingWhatsAppButton() {
+    const [whatsappLink, setWhatsappLink] = useState("https://wa.link/uwwdyh");
+
+    useEffect(() => {
+        const loadWhatsApp = async () => {
+            const contact = await getContactInfo();
+            if (contact && contact.whatsappLink) {
+                setWhatsappLink(contact.whatsappLink);
+            }
+        };
+        loadWhatsApp();
+    }, []);
+
     return (
         <motion.a
-            href="https://wa.link/uwwdyh"
+            href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed bottom-8 right-8 z-50 rounded-full w-14 h-14 md:w-16 md:h-16 bg-[#25D366] flex items-center justify-center shadow-lg shadow-green-500/30 overflow-hidden"
+            className="fixed bottom-8 right-8 z-50 rounded-full w-14 h-14 md:w-16 md:h-16 bg-[#25D366] flex items-center justify-center shadow-lg shadow-green-500/30 overflow-hidden cursor-pointer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             title="Chat on WhatsApp"
@@ -20,3 +34,4 @@ export default function FloatingWhatsAppButton() {
         </motion.a>
     );
 }
+

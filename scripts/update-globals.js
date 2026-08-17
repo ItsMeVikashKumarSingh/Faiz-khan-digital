@@ -26,13 +26,56 @@ const databases = new sdk.Databases(client);
 
 const GLOBALS_DATA = [
     {
+        tgm_slug: 'branding',
+        tgm_content: JSON.stringify({
+            siteName: 'FAIZ KHAN',
+            siteNameHighlight: 'DIGITAL',
+            logoUrl: '',
+            faviconUrl: '/favicon.ico',
+            tagPill: 'Premium Digital Marketing Services',
+            metaTitle: 'Faiz Khan Digital | Premium Digital Marketing Services',
+            metaDescription: 'Transform your digital presence with Faiz Khan Digital. Expert marketing strategies for verified results. 3+ years experience, 50+ brands served.',
+            metaKeywords: 'digital marketing, facebook ads, instagram ads, google ads, performance marketing, growth marketing, faiz khan digital'
+        })
+    },
+    {
+        tgm_slug: 'contact',
+        tgm_content: JSON.stringify({
+            email: 'faizkhandigital@gmail.com',
+            phone: 'Available on WhatsApp',
+            whatsappLink: 'https://wa.link/uwwdyh',
+            location: 'Based in India, Serving Worldwide',
+            footerBio: 'Transforming digital presence with cutting-edge marketing strategies and expert guidance. Your success is our mission.',
+            copyrightText: 'Faiz Khan Digital. All rights reserved.'
+        })
+    },
+    {
+        tgm_slug: 'social',
+        tgm_content: JSON.stringify({
+            facebook: 'https://facebook.com',
+            instagram: 'https://instagram.com',
+            twitter: 'https://twitter.com',
+            youtube: 'https://youtube.com',
+            linkedin: ''
+        })
+    },
+    {
+        tgm_slug: 'intro_video',
+        tgm_content: JSON.stringify({
+            videoUrl: '',
+            title: 'Watch Introduction',
+            subtitle: 'Discover how we scale businesses through high-converting performance marketing'
+        })
+    },
+    {
         tgm_slug: 'hero',
         tgm_content: JSON.stringify({
             titleLine1: 'Digital Presence',
             titleLine2: 'Reimagined',
             subtitle: 'Transform your brand with expert strategies. Zero guesswork, infinite scalability, and verified results.',
             ctaPrimary: 'Start Building',
-            ctaSecondary: 'Explore Services'
+            ctaSecondary: 'Explore Services',
+            tagPill: 'Premium Digital Marketing Services'
         })
     },
     {

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -8,10 +9,13 @@ import {
     Instagram,
     Twitter,
     Youtube,
+    Linkedin,
     Mail,
     Phone,
     MapPin,
 } from "lucide-react";
+import { getSiteBranding, getContactInfo, getSocialLinks } from "@/lib/cms";
+import { SiteBranding, ContactInfo, SocialLinks } from "@/types";
 
 const quickLinks = [
     { href: "#home", label: "Home" },
@@ -32,15 +36,49 @@ const services = [
     { href: "#services", label: "Video Editing" },
 ];
 
-const socialLinks = [
-    { href: "#", icon: Facebook, label: "Facebook" },
-    { href: "#", icon: Instagram, label: "Instagram" },
-    { href: "#", icon: Twitter, label: "Twitter" },
-    { href: "#", icon: Youtube, label: "YouTube" },
-];
-
 export default function Footer() {
     const currentYear = new Date().getFullYear();
+    const [branding, setBranding] = useState<SiteBranding>({
+        siteName: "FAIZ KHAN",
+        siteNameHighlight: "DIGITAL",
+        logoUrl: ""
+    });
+    const [contact, setContact] = useState<ContactInfo>({
+        email: "faizkhandigital@gmail.com",
+        phone: "Available on WhatsApp",
+        location: "Based in India, Serving Worldwide",
+        footerBio: "Transforming digital presence with cutting-edge marketing strategies and expert guidance. Your success is our mission.",
+        copyrightText: "Faiz Khan Digital. All rights reserved."
+    });
+    const [social, setSocial] = useState<SocialLinks>({
+        facebook: "https://facebook.com",
+        instagram: "https://instagram.com",
+        twitter: "https://twitter.com",
+        youtube: "https://youtube.com",
+        linkedin: ""
+    });
+
+    useEffect(() => {
+        const loadFooterData = async () => {
+            const [b, c, s] = await Promise.all([
+                getSiteBranding(),
+                getContactInfo(),
+                getSocialLinks()
+            ]);
+            if (b) setBranding(prev => ({ ...prev, ...b }));
+            if (c) setContact(prev => ({ ...prev, ...c }));
+            if (s) setSocial(prev => ({ ...prev, ...s }));
+        };
+        loadFooterData();
+    }, []);
+
+    const socialItems = [
+        { href: social.facebook, icon: Facebook, label: "Facebook" },
+        { href: social.instagram, icon: Instagram, label: "Instagram" },
+        { href: social.twitter, icon: Twitter, label: "Twitter" },
+        { href: social.youtube, icon: Youtube, label: "YouTube" },
+        { href: social.linkedin, icon: Linkedin, label: "LinkedIn" },
+    ].filter(item => item.href && item.href.trim() !== "");
 
     return (
         <footer className="relative border-t border-white/10 mt-10">
@@ -52,26 +90,41 @@ export default function Footer() {
                     {/* Brand Column */}
                     <div className="space-y-4">
                         <Link href="#home" className="flex items-center gap-2 group">
-                            <Zap className="w-5 h-5 text-cyan-400" />
-                            <span className="text-lg font-bold">
-                                FAIZ KHAN <span className="text-purple-400">DIGITAL</span>
-                            </span>
+                            {branding.logoUrl ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                    src={branding.logoUrl}
+                                    alt={branding.siteName || "Logo"}
+                                    className="h-7 w-auto max-w-[150px] object-contain rounded"
+                                />
+                            ) : (
+                                <>
+                                    <Zap className="w-5 h-5 text-cyan-400" />
+                                    <span className="text-lg font-bold">
+                                        {branding.siteName || "FAIZ KHAN"}{" "}
+                                        <span className="text-purple-400">
+                                            {branding.siteNameHighlight || "DIGITAL"}
+                                        </span>
+                                    </span>
+                                </>
+                            )}
                         </Link>
                         <p className="text-white/60 text-sm leading-relaxed">
-                            Transforming digital presence with cutting-edge marketing
-                            strategies and expert guidance. Your success is our mission.
+                            {contact.footerBio || "Transforming digital presence with cutting-edge marketing strategies and expert guidance. Your success is our mission."}
                         </p>
                         {/* Social Links */}
                         <div className="flex gap-3">
-                            {socialLinks.map((social) => (
+                            {socialItems.map((s) => (
                                 <motion.a
-                                    key={social.label}
-                                    href={social.href}
+                                    key={s.label}
+                                    href={s.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     whileHover={{ scale: 1.1, y: -2 }}
                                     className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-cyan-400 hover:border-cyan-400/50 transition-colors"
-                                    aria-label={social.label}
+                                    aria-label={s.label}
                                 >
-                                    <social.icon className="w-4 h-4" />
+                                    <s.icon className="w-4 h-4" />
                                 </motion.a>
                             ))}
                         </div>
@@ -121,22 +174,40 @@ export default function Footer() {
                             Contact Info
                         </h3>
                         <ul className="space-y-3">
-                            <li className="flex items-start gap-3">
-                                <Mail className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
-                                <span className="text-white/60 text-sm">
-                                    faizkhandigital@gmail.com
-                                </span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <Phone className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
-                                <span className="text-white/60 text-sm">
-                                    Available on WhatsApp
-                                </span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <MapPin className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
-                                <span className="text-white/60 text-sm">Based in India</span>
-                            </li>
+                            {contact.email && (
+                                <li className="flex items-start gap-3">
+                                    <Mail className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
+                                    <a
+                                        href={`mailto:${contact.email}`}
+                                        className="text-white/60 text-sm hover:text-white transition-colors"
+                                    >
+                                        {contact.email}
+                                    </a>
+                                </li>
+                            )}
+                            {contact.phone && (
+                                <li className="flex items-start gap-3">
+                                    <Phone className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
+                                    {contact.whatsappLink ? (
+                                        <a
+                                            href={contact.whatsappLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-white/60 text-sm hover:text-cyan-400 transition-colors"
+                                        >
+                                            {contact.phone}
+                                        </a>
+                                    ) : (
+                                        <span className="text-white/60 text-sm">{contact.phone}</span>
+                                    )}
+                                </li>
+                            )}
+                            {contact.location && (
+                                <li className="flex items-start gap-3">
+                                    <MapPin className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
+                                    <span className="text-white/60 text-sm">{contact.location}</span>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>
@@ -144,7 +215,7 @@ export default function Footer() {
                 {/* Bottom Bar */}
                 <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-white/40 text-sm">
-                        © {currentYear} Faiz Khan Digital. All rights reserved.
+                        © {currentYear} {contact.copyrightText || "Faiz Khan Digital. All rights reserved."}
                     </p>
                     <div className="flex gap-6">
                         <Link
@@ -171,3 +242,4 @@ export default function Footer() {
         </footer>
     );
 }
+

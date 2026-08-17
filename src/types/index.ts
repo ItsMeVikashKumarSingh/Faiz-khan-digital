@@ -71,12 +71,17 @@ export interface Video {
 }
 
 export interface HeroData {
-    title: string;
-    subtitle: string;
-    ctaText: string;
-    ctaLink: string;
-    // Add other fields as per DB content
-    videoUrl?: string; // If intro video is part of hero
+    titleLine1?: string;
+    titleLine2?: string;
+    subtitle?: string;
+    ctaPrimary?: string;
+    ctaSecondary?: string;
+    tagPill?: string;
+    // Legacy support
+    title?: string;
+    ctaText?: string;
+    ctaLink?: string;
+    videoUrl?: string;
 }
 
 export interface AboutData {
@@ -88,3 +93,38 @@ export interface AboutData {
     mentorImage: string;
     features?: string[];
 }
+
+export interface SiteBranding {
+    siteName?: string;
+    siteNameHighlight?: string;
+    logoUrl?: string;
+    faviconUrl?: string;
+    tagPill?: string;
+    metaTitle?: string;
+    metaDescription?: string;
+    metaKeywords?: string;
+}
+
+export interface ContactInfo {
+    email?: string;
+    phone?: string;
+    whatsappLink?: string;
+    location?: string;
+    footerBio?: string;
+    copyrightText?: string;
+}
+
+export interface SocialLinks {
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+    youtube?: string;
+    linkedin?: string;
+}
+
+export interface IntroVideoData {
+    videoUrl?: string;
+    title?: string;
+    subtitle?: string;
+}
+

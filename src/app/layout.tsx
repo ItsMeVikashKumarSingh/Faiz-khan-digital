@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Orbitron, Outfit } from "next/font/google";
 import "./globals.css";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
+import DynamicHead from "@/components/layout/DynamicHead";
 import { ToastProvider } from "@/components/ui/Toast";
 
 const outfit = Outfit({
@@ -38,10 +39,12 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-outfit), sans-serif" }}
       >
         <ToastProvider>
+          <DynamicHead />
           <ConditionalLayout>{children}</ConditionalLayout>
         </ToastProvider>
       </body>
     </html>
   );
 }
+
 

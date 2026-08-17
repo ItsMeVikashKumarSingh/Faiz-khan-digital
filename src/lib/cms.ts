@@ -263,3 +263,96 @@ export const getAboutData = async (): Promise<AboutData | null> => {
         return cached || null;
     }
 };
+
+// Site Branding (from tbl_globals_mstr slug 'branding')
+export const getSiteBranding = async (): Promise<import('@/types').SiteBranding | null> => {
+    const cacheKey = 'site_branding';
+    const cached = getCached<import('@/types').SiteBranding>(cacheKey);
+
+    try {
+        const response = await databases.listDocuments(
+            DATABASE_ID,
+            COLLECTIONS.GLOBALS,
+            [Query.equal('tgm_slug', 'branding')]
+        );
+        if (response.documents.length > 0) {
+            const data = JSON.parse(response.documents[0].tgm_content);
+            setCached(cacheKey, data);
+            return data;
+        }
+        return cached || null;
+    } catch (error) {
+        console.error('Error fetching site branding:', error);
+        return cached || null;
+    }
+};
+
+// Contact Info (from tbl_globals_mstr slug 'contact')
+export const getContactInfo = async (): Promise<import('@/types').ContactInfo | null> => {
+    const cacheKey = 'contact_info';
+    const cached = getCached<import('@/types').ContactInfo>(cacheKey);
+
+    try {
+        const response = await databases.listDocuments(
+            DATABASE_ID,
+            COLLECTIONS.GLOBALS,
+            [Query.equal('tgm_slug', 'contact')]
+        );
+        if (response.documents.length > 0) {
+            const data = JSON.parse(response.documents[0].tgm_content);
+            setCached(cacheKey, data);
+            return data;
+        }
+        return cached || null;
+    } catch (error) {
+        console.error('Error fetching contact info:', error);
+        return cached || null;
+    }
+};
+
+// Social Links (from tbl_globals_mstr slug 'social')
+export const getSocialLinks = async (): Promise<import('@/types').SocialLinks | null> => {
+    const cacheKey = 'social_links';
+    const cached = getCached<import('@/types').SocialLinks>(cacheKey);
+
+    try {
+        const response = await databases.listDocuments(
+            DATABASE_ID,
+            COLLECTIONS.GLOBALS,
+            [Query.equal('tgm_slug', 'social')]
+        );
+        if (response.documents.length > 0) {
+            const data = JSON.parse(response.documents[0].tgm_content);
+            setCached(cacheKey, data);
+            return data;
+        }
+        return cached || null;
+    } catch (error) {
+        console.error('Error fetching social links:', error);
+        return cached || null;
+    }
+};
+
+// Intro Video (from tbl_globals_mstr slug 'intro_video')
+export const getIntroVideoData = async (): Promise<import('@/types').IntroVideoData | null> => {
+    const cacheKey = 'intro_video';
+    const cached = getCached<import('@/types').IntroVideoData>(cacheKey);
+
+    try {
+        const response = await databases.listDocuments(
+            DATABASE_ID,
+            COLLECTIONS.GLOBALS,
+            [Query.equal('tgm_slug', 'intro_video')]
+        );
+        if (response.documents.length > 0) {
+            const data = JSON.parse(response.documents[0].tgm_content);
+            setCached(cacheKey, data);
+            return data;
+        }
+        return cached || null;
+    } catch (error) {
+        console.error('Error fetching intro video:', error);
+        return cached || null;
+    }
+};
+
